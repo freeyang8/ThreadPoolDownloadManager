@@ -215,7 +215,7 @@ void DownloadManager::loop(){
             }
             
             //执行下载
-            executeDownload(curl,task.taskId); 
+            executeDownload(curl,task.taskId);
         }
         //清理句柄
         curl_easy_cleanup(curl);
@@ -373,7 +373,7 @@ std::string getDownloadFilename(CURL* curl, const std::string& url) {
 
         //配置curl
         curl_easy_setopt(curl,CURLOPT_URL,url.c_str()); //设置下载链接
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);      // 总超时 30 秒
+        //curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);      // 总超时 30 秒
         curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,10L); //10秒超时
         //curl_easy_setopt(curl,CURLOPT_VERBOSE,1L);  //详细日志
         curl_easy_setopt(curl,CURLOPT_WRITEDATA,file); //写入文件
@@ -387,6 +387,7 @@ std::string getDownloadFilename(CURL* curl, const std::string& url) {
         CURLcode res = curl_easy_perform(curl); //连接服务器，开始下载，过程是阻塞进程
         fclose(file);
 
+        std::cout << "下载完成" << std::endl;
     // 清理标志并更新状态
     {
         std::lock_guard<std::mutex> lock(mtx);

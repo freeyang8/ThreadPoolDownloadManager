@@ -225,11 +225,13 @@ ThreadPoolDownloadManager_autogen/timestamp: \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qwindowdefs_win.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QLineEdit \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QMainWindow \
+	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QProgressBar \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QPushButton \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qabstractbutton.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qframe.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qlineedit.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qmainwindow.h \
+	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qprogressbar.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qpushbutton.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qsizepolicy.h \
 	E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qtabwidget.h \
