@@ -1,4 +1,4 @@
-#include "DownloadManager.h"
+﻿#include "DownloadManager.h"
 #include <thread>
 #include <iostream>
 #include <curl/curl.h>
@@ -60,8 +60,20 @@ DownloadManager::~DownloadManager(){
     }
 }
 
+//通过URL获取文件名
+std::string getFileNameFromURL(const std::string& url){
+    size_t pos = url.find_last_of('/');
+
+    //pos没找到，就返回npos
+    if(pos != std::string::npos){
+        //string substr(size_t pos, size_t len = npos);从pos开始截取到文件末尾
+        return url.substr(pos+1);
+    }
+    return "downloaded_file";
+}
 //提交下载任务，返回任务ID
-int DownloadManager::addDownload(const std::string& url, const std::string& savePath){
+int DownloadManager::addDownload(const std::string& url){
+    const std::string savePath = getFileNameFromURL(url); //
     int taskId = ++nowTaskId;                     // 生成唯一ID
 
     // 提前创建取消标志
@@ -128,6 +140,7 @@ DownloadTask DownloadManager::getTaskStatus(int taskId){
         return invalidTask;
     }
 }
+
 std::vector<DownloadTask> DownloadManager::getAllTasks(){
     std::vector<DownloadTask> all_DownloadTask;
     std::lock_guard<std::mutex> lock(mtx);
@@ -144,6 +157,7 @@ void DownloadManager::cancelAll(){
         pair.second->store(true);
     }
 }
+
 void DownloadManager::loop(){
         CURL * curl = curl_easy_init();
         if(!curl){
@@ -218,8 +232,9 @@ void DownloadManager::loop(){
             savePath = it->second.savePath;
             it->second.status = DownloadStatus::DOWNLOADING; 
 
-            auto flagIt = cancelFlags.find(taskId);
-        if(flagIt != cancelFlags.end())
+            //获取取消标志
+            auto flagIt = cancelFlags.find(taskId); //输入任务id获取对应标志
+        if(flagIt != cancelFlags.end()) //如果有，就赋值
             cancelFlag = flagIt->second;   
         else
             return;  // 理论上不会发生
