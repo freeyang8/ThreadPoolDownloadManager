@@ -2,7 +2,7 @@
 #include <thread>
 #include <iostream>
 #include <curl/curl.h>
-
+#include <algorithm>
 static std::mutex g_consoleMutex; //终端打印锁，防止同时写入
 int DownloadManager::progressCallback(void* clientp, 
                                       curl_off_t dltotal, curl_off_t dlnow,
@@ -21,8 +21,23 @@ int DownloadManager::progressCallback(void* clientp,
         int progress = (int)((dlnow * 100) / dltotal);
         std::lock_guard<std::mutex> lock(pData->mgr->mtx);
         pData->mgr->taskMap[pData->taskId].progress = progress;
+
+         {
+            std::lock_guard<std::mutex> lock(g_consoleMutex);
+            std::cout << "\r[Task " << pData->taskId << "] [";
+            int barWidth = 50;
+            int pos = barWidth * progress / 100;
+            for (int i = 0; i < barWidth; ++i) {
+                if (i < pos) std::cout << "=";
+                else if (i == pos) std::cout << ">";
+                else std::cout << " ";
+            }
+            std::cout << "] " << progress << "%";
+            std::cout.flush();
+        }
     }
     
+       
     return 0;
 
 }
@@ -60,20 +75,9 @@ DownloadManager::~DownloadManager(){
     }
 }
 
-//通过URL获取文件名
-std::string getFileNameFromURL(const std::string& url){
-    size_t pos = url.find_last_of('/');
-
-    //pos没找到，就返回npos
-    if(pos != std::string::npos){
-        //string substr(size_t pos, size_t len = npos);从pos开始截取到文件末尾
-        return url.substr(pos+1);
-    }
-    return "downloaded_file";
-}
 //提交下载任务，返回任务ID
-int DownloadManager::addDownload(const std::string& url){
-    const std::string savePath = getFileNameFromURL(url); //
+int DownloadManager::addDownload(const std::string& url,const std::string& savePath){
+
     int taskId = ++nowTaskId;                     // 生成唯一ID
 
     // 提前创建取消标志
@@ -83,7 +87,7 @@ int DownloadManager::addDownload(const std::string& url){
     DownloadTask task;
     task.id = taskId;
     task.url = url;
-    task.savePath = savePath;
+    task.savePath = savePath; //这里修改了
     task.status = DownloadStatus::PENDING;
     task.progress = 0;
     task.errorMessage = "";
@@ -176,10 +180,11 @@ void DownloadManager::loop(){
             
             //唤醒条件
             con_var.wait(lock,[this]{
-                if(tasks.empty()){
-                    std::lock_guard<std::mutex> lock(g_consoleMutex);
-                    std::cout << "tasks is empty" << std::endl;
-                }
+                //检查是否有任务
+                // if(tasks.empty()){
+                //     std::lock_guard<std::mutex> lock(g_consoleMutex);
+                //     std::cout << "tasks is empty" << std::endl;
+                // }
                 return !tasks.empty() || stop;
             });
 
@@ -216,6 +221,113 @@ void DownloadManager::loop(){
         curl_easy_cleanup(curl);
     }
 
+//获取响应头的回调函数
+static size_t headerCallback(char* buffer,size_t size,size_t nitems,void*  userdata){
+    std::string* headerData = static_cast<std::string*>(userdata); //让指针指向地址
+    headerData->append(buffer,size*nitems); //写入数据
+    return size*nitems;
+}
+// 通过响应头获取完整文件名
+std::string getDownloadFilename(CURL* curl, const std::string& url) {
+    std::string headerData;  // 存储回调函数获取到的信息
+
+    // 配置 curl 先发 HEAD 请求获取响应头
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    // 配置响应头回调函数
+    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, headerCallback);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &headerData);
+
+    // 执行 HEAD 请求
+    CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        std::cerr << "HEAD request failed: " << curl_easy_strerror(res) << std::endl;
+        return "";
+    }
+
+    // 重置为 GET 请求模式（恢复后续下载使用）
+    curl_easy_setopt(curl, CURLOPT_NOBODY, 0L);
+    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, nullptr);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, nullptr);
+
+    std::cout << "\n=== 完整响应头 ===" << std::endl;
+    std::cout << headerData << std::endl;
+    std::cout << "==================\n" << std::endl;
+
+    std::string filename;  // 存储提取到的文件名
+
+    // 将响应头转换为小写，以便不区分大小写地查找
+    std::string headerDataLower = headerData;
+    std::transform(headerDataLower.begin(), headerDataLower.end(), headerDataLower.begin(), ::tolower);
+
+    // 在小写版本中查找 "content-disposition:" 字段
+    size_t dispPos = headerDataLower.find("content-disposition:");
+
+    if (dispPos != std::string::npos) {
+        // 在原始数据中找到对应行的结束位置（换行符）
+        size_t lineEnd = headerData.find('\n', dispPos);
+
+        // 提取整行 Content-Disposition 数据
+        std::string dispLine = headerData.substr(dispPos, lineEnd - dispPos);
+
+        // 将该行也转换为小写，方便查找 filename
+        std::string dispLineLower = dispLine;
+        std::transform(dispLineLower.begin(), dispLineLower.end(), dispLineLower.begin(), ::tolower);
+
+        // 查找 "filename=" 的位置
+        size_t filenamePos = dispLineLower.find("filename=");
+        if (filenamePos != std::string::npos) {
+            filenamePos += 9;  // 跳过 "filename=" 这9个字符
+
+            // 检查是否有引号包裹的文件名
+            if (filenamePos < dispLine.size() && dispLine[filenamePos] == '"') {
+                // 有引号的情况：filename="STL-main.zip"
+                filenamePos++;  // 跳过开头的引号
+                size_t endQuote = dispLine.find('"', filenamePos);  // 查找结尾引号
+                if (endQuote != std::string::npos) {
+                    filename = dispLine.substr(filenamePos, endQuote - filenamePos);
+                }
+            } else {
+                // 没有引号的情况：filename=STL-main.zip
+                // 查找分号或行尾作为结束位置
+                size_t endPos = dispLine.find(';', filenamePos);
+                if (endPos == std::string::npos) {
+                    endPos = dispLine.size();  // 没有分号，取到行尾
+                }
+
+                // 去除尾部的空格、回车、换行符
+                while (endPos > filenamePos &&
+                       (dispLine[endPos - 1] == ' ' ||
+                        dispLine[endPos - 1] == '\r' ||
+                        dispLine[endPos - 1] == '\n')) {
+                    endPos--;
+                }
+
+                // 提取文件名
+                filename = dispLine.substr(filenamePos, endPos - filenamePos);
+            }
+        }
+    }
+
+    // 如果响应头中没有文件名，从 URL 中提取
+    if (filename.empty()) {
+        size_t lastSlashPos = url.find_last_of('/');
+        if (lastSlashPos != std::string::npos) {
+            filename = url.substr(lastSlashPos + 1);
+        }
+
+        size_t queryPos = filename.find('?');
+        if (queryPos != std::string::npos) {
+            filename = filename.substr(0, queryPos);
+        }
+    }
+
+    return filename;
+}
+
+
     void DownloadManager::executeDownload(CURL* curl, int taskId){
         
         std::string url,savePath;
@@ -239,7 +351,10 @@ void DownloadManager::loop(){
         else
             return;  // 理论上不会发生
         }
-
+        //在这里为savePath添加文件名和后缀
+        //获取文件名
+        std::string fileName = getDownloadFilename(curl,url);
+        savePath += fileName;
         //创建并打开文件
         FILE* file = fopen(savePath.c_str(),"wb");
         if(!file){
@@ -266,6 +381,9 @@ void DownloadManager::loop(){
         curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &callbackData); 
         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
 
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);  // 跳过证书验证
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);  // 跳过主机名验证
+
         CURLcode res = curl_easy_perform(curl); //连接服务器，开始下载，过程是阻塞进程
         fclose(file);
 
@@ -291,4 +409,4 @@ void DownloadManager::loop(){
     }
 
 
-    }
+}

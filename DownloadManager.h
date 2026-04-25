@@ -23,7 +23,7 @@ public:
     ~DownloadManager();
     
     // 提交下载任务，返回任务ID
-    int addDownload(const std::string& url);
+    int addDownload(const std::string& url,const std::string& savePath);
     
     // 取消指定任务
     bool cancelDownload(int taskId);

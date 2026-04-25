@@ -9,11 +9,14 @@ E:/software/qt/qtproject/ThreadPoolDownloadManager/build/Desktop_Qt_6_11_0_MSVC2
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/corecrt_wstdio.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/corecrt_wstdlib.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/corecrt_wstring.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/corecrt_wtime.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/errno.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/stddef.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/stdio.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/stdlib.h \
   C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/string.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/sys/types.h \
+  C:/Program\ Files\ (x86)/Windows\ Kits/10/include/10.0.26100.0/ucrt/time.h \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/algorithm \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/array \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/atomic \
@@ -22,21 +25,25 @@ E:/software/qt/qtproject/ThreadPoolDownloadManager/build/Desktop_Qt_6_11_0_MSVC2
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/climits \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/cmath \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/concurrencysal.h \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/condition_variable \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/cstddef \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/cstdint \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/cstdlib \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/cstring \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/functional \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/initializer_list \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/iostream \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/iterator \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/limits \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/limits.h \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/list \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/map \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/memory \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/mutex \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/new \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/numeric \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/optional \
+  C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/queue \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/sal.h \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/set \
   C:/Program\ Files/Microsoft\ Visual\ Studio/18/Community/VC/Tools/MSVC/14.50.35717/include/stdarg.h \
@@ -178,6 +185,7 @@ E:/software/qt/qtproject/ThreadPoolDownloadManager/build/Desktop_Qt_6_11_0_MSVC2
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qtversionchecks.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qtypeinfo.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qtypes.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qurl.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qutf8stringview.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qvariant.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtCore/qvarlengtharray.h \
@@ -198,23 +206,47 @@ E:/software/qt/qtproject/ThreadPoolDownloadManager/build/Desktop_Qt_6_11_0_MSVC2
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qkeysequence.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpaintdevice.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpalette.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpen.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpixelformat.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpixmap.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qpolygon.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qregion.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qrgb.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qrgba64.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtextcursor.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtextdocument.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtextformat.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtextoption.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtgui-config.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtguiexports.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtguiglobal.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qtransform.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qwindowdefs.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtGui/qwindowdefs_win.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QLineEdit \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QMainWindow \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/QPushButton \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qabstractbutton.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qframe.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qlineedit.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qmainwindow.h \
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qpushbutton.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qsizepolicy.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qtabwidget.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qtwidgets-config.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qtwidgetsexports.h \
   E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qtwidgetsglobal.h \
-  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qwidget.h
+  E:/software/qt/QtMSCV/6.11.0/msvc2022_64/include/QtWidgets/qwidget.h \
+  E:/software/qt/qtproject/ThreadPoolDownloadManager/DownloadManager.h \
+  E:/software/qt/qtproject/ThreadPoolDownloadManager/DownloadStatus.h \
+  E:/software/qt/qtproject/ThreadPoolDownloadManager/DownloadTask.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/curl.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/curlver.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/easy.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/header.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/mprintf.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/multi.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/options.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/system.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/urlapi.h \
+  E:/software/vcpkg/vcpkg/installed/x64-windows/include/curl/websockets.h
